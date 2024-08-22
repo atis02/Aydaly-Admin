@@ -31,14 +31,14 @@ import { NavLink } from "react-router-dom";
 import { getAuthors } from "../../../Components/db/Redux/api/AuthorSlice";
 // import { getCategory } from "../../../Components/db/Redux/api/ReduxSlice";
 const Data = () => {
-  const [id, setId] = useState("");
+  const [id, setId] = useState(null);
   const [idUpdate, setIdUpdate] = useState("");
   const [id2, setId2] = useState("");
   const [show, setShow] = useState(null);
   const [originalVideo, setOriginalVideo] = useState(null);
   const [karaokeVideo, setKaraokeVideo] = useState(null);
   const [nameVideo, setNameVideo] = useState("");
-  const [authorId, setAuthorId] = useState("");
+  const [authorId, setAuthorId] = useState(null);
   const [categories, setCategories] = useState([]);
   const [add, setAdd] = useState();
   const [data2, setData] = useState("");
@@ -102,6 +102,11 @@ const Data = () => {
     body.append("name", nameVideo);
     body.append("originalVideo", originalVideo);
     dispatch(createVideo(body));
+    setNameVideo(" ");
+    setId(null);
+    setAuthorId(null);
+    setKaraokeVideo(null);
+    setOriginalVideo(null);
   };
   const handleDelete = (id) => {
     dispatch(deleteVideo(id));
@@ -176,6 +181,7 @@ const Data = () => {
               <Autocomplete
                 multiple={false}
                 fullWidth
+                value={id}
                 disableClearable
                 id="combo-box-demo"
                 options={
@@ -234,6 +240,7 @@ const Data = () => {
               fullWidth
               disableClearable
               id="combo-box-demo"
+              value={authorId}
               options={
                 statusAuthor === "loading..." ? (
                   <Stack
@@ -289,6 +296,7 @@ const Data = () => {
               fullWidth
               id="input-with-icon-textfield"
               placeholder="Add Video name"
+              value={nameVideo}
               name="title"
               sx={{
                 width: { lg: "70%", md: "50%", sm: "50%", xs: "100%" },
